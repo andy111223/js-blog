@@ -10,7 +10,7 @@
     for (let activeLink of activeLinks){
       activeLink.classList.remove('active');
     }
-    
+
     /* add class 'active' to the clicked link */
     clickedElement.classList.add('active');
 
@@ -64,12 +64,12 @@
     }
     /* insert the generated HTML into ul element */
     titleList.innerHTML = html;
- 
+
     /* create a list of links by slecting a's from ul, and add event listeners */
     const links = document.querySelectorAll('.titles a');
     for (let link of links) {
       link.addEventListener('click', titleClickHandler);
-    } 
+    }
   }
 
   generateTitleLinks();
