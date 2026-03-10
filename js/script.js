@@ -37,15 +37,16 @@
     optArticleTagsSelector = '.post-tags .list';
 
   /* Function to generate title links */
-  function generateTitleLinks() {
+  function generateTitleLinks(customSelector = '') {
 
     /* remove contents of titleList */
     const titleList = document.querySelector(optTitleListSelector);
     titleList.innerHTML = '';
 
     let html = '';
+
     /* for each article */
-    const articles = document.querySelectorAll(optArticleSelector);
+    const articles = document.querySelectorAll(optArticleSelector + customSelector);
     for (let article of articles) {
 
       /* read ID and save to a constant*/
@@ -124,10 +125,10 @@
 
     /* make a new constant "href" and read the attribute "href" of the clicked element */
     const href = clickedElement.getAttribute('href');
-    
+
     /* make a new constant "tag" and extract tag from the "href" constant */
     const tag = href.replace('#tag-', '');
-    
+
     /* find all tag links with class active */
     const activeTagLinks = document.querySelectorAll('a.active[href^="#tag-"]');
 
@@ -136,24 +137,29 @@
 
       /* remove class active */
       activeTagLink.classList.remove('active');
-      
+
     /* END LOOP: for each active tag link */
     }
 
-    /* find all tag links with "href" attribute equal to the "href" constant */
+    /* find all tag links with "href" attribute equal to the "href" constant (#tag-<tag>
+    ) */
     const tagLinks = document.querySelectorAll('a[href="' + href + '"]');
-    
+
     /* START LOOP: for each found tag link */
     for (let tagLink of tagLinks) {
-      
+
       /* add class active */
       tagLink.classList.add('active');
     /* END LOOP: for each found tag link */
     }
+
+    /* execute function "generateTitleLinks" with article selector as argument to display articles with the same tag */
+    generateTitleLinks(`[data-tags~="${tag}"]`);
+
   }
 
-  function addClickLIstenersToTags(){
-    
+  function addClickListenersToTags(){
+
     /* find all links to tags*/
     const tagsLinks = document.querySelectorAll('.post-tags a');
 
@@ -165,6 +171,6 @@
     }
     /* END LOOP: for each link */
   }
-  addClickLIstenersToTags();
+  addClickListenersToTags();
 
 })();
