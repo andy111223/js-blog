@@ -75,11 +75,28 @@
       link.addEventListener('click', titleClickHandler);
     }
   }
+  /* [NEW] find min and max occurances for tags */
+  function calculateTagsParams(tags){
+
+    const params = {max: 0, min: 999999};
+    /* tag is the key of the tags object, tags[tag] is the value */
+    for (let tag in tags) {
+
+      if (tags[tag] > params.max) {
+        params.max = tags[tag];
+      }
+      if (tags[tag] < params.min) {
+        params.min = tags[tag];
+      }
+    }
+    console.log('params:', params);
+    return params;
+  }
 
   generateTitleLinks();
 
   function generateTags(){
-    /* [NEW] create a new variable allTags with an empty object */
+    /* create a new variable allTags with an empty object */
     let allTags = {};
 
     /* find all articles */
@@ -109,13 +126,13 @@
         /* add generated code to HTML variable */
         html = html + linkHTML;
 
-        /* [NEW] check if this link is NOT already in allTags */
+        /* check if this link is NOT already in allTags */
         if (!allTags[tag]) {
 
-          /* [NEW] add tag to allTags object */
+          /* add tag to allTags object */
           allTags[tag] = 1;
         } else {
-          /* [NEW] if it is already in allTags object, add 1 to its counter */
+          /* if it is already in allTags object, add 1 to its counter */
           allTags[tag]++;
         }
 
@@ -128,18 +145,19 @@
     }
     /* find list of tags in right column */
     const tagList = document.querySelector(optTagsListSelector);
-    console.log('tagList: ', tagList);
 
-    /* [NEW] create variable for all links HTML code */
+    const tagsParams = calculateTagsParams(allTags);
+
+    /* create variable for all links HTML code */
     let allTagsHTML = '';
 
-    /* [NEW] START LOOP: for each tag in allTags: */
+    /* START LOOP: for each tag in allTags: */
     for (let tag in allTags) {
 
-      /* [NEW] generate code of a link and add it to allTagsHTML */
+      /* generate code of a link and add it to allTagsHTML */
       allTagsHTML += `<li><a href="#tag-${tag}"><span>${tag}</span> <span>(${allTags[tag]})</span></a></li>`;
     }
-    /* [NEW] END LOOP: for each tag in allTags: */
+    /* END LOOP: for each tag in allTags: */
 
     /* add HTML from allTagsHTML to tagList */
     tagList.innerHTML = allTagsHTML;
