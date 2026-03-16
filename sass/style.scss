@@ -59,10 +59,14 @@ body {
 
 .sidebar, .posts {
   background: $color-light;
-  margin-right: 10px;
+  margin-right: 20px;
   padding: 40px;
-  border: 1px solid $color-dark;
+  // border: 1px solid $color-dark;
   border-radius: 5px;
+
+  &:hover {
+    box-shadow: 12px 12px 12px rgba(0,0,0,0.1), -10px -10px 10px white;
+  }
 }
 
 /* Logo */
@@ -74,6 +78,7 @@ body {
   line-height: 1;
   text-align: center;
 }
+
 
 /* Lists */
 
