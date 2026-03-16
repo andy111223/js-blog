@@ -38,7 +38,8 @@
     optArticleAuthorSelector = '.posts .post-author',
     optTagsListSelector = '.list.tags',
     optCloudClassCount = 5,
-    optCloudClassPrefix = 'tag-size-';
+    optCloudClassPrefix = 'tag-size-',
+    optAuthorsListSelector = '.list.authors';
 
   /* Function to generate title links */
   function generateTitleLinks(customSelector = '') {
@@ -98,7 +99,7 @@
 
   generateTitleLinks();
 
-  /* [NEW] calculate class for tag; function should return class name with size information */
+  /* calculate class for tag; function should return class name with size information */
   function calculateTagClass(count, params){
 
     const normalizedCount = count - params.min;
@@ -235,7 +236,11 @@
   }
   addClickListenersToTags();
 
+  /*[NEW] generate authorsList in the sidebar with the number of articles */
   function generateAuthors(){
+
+    /*[NEW] empty object for authorname and number of articles */
+    const authors = {};
 
     /* find all articles */
     const articles = document.querySelectorAll(optArticleSelector);
@@ -252,11 +257,33 @@
       /* generate HTML of the link */
       const linkHTML = `<a href="#author-${author}"><span>${author}</span></a>`;
 
-      /* insert HTML of the link into the author wrapper */
+      /* insert HTML of the link into the author wrapper under each article */
       authorWrapper.innerHTML = linkHTML;
 
-      /* END LOOP: for every article */
+      /*[NEW] increment article count for the author */
+      if (authors[author]) {
+        authors[author]++;
+      } else {
+        authors[author] = 1;
+      }
     }
+
+    /* [NEW] find list of authors in right column */
+    const authorList = document.querySelector(optAuthorsListSelector);
+
+    /* [NEW] create variable for all links HTML code */
+    let allAuthorsHTML = '';
+
+    /* [NEW] START LOOP: for each author in authors: */
+    for (let author in authors) {
+
+      /* [NEW] generate code of a link and add it to allAuthorsHTML */
+      allAuthorsHTML += `<li><a href="#author-${author}"><span>${author} (${authors[author]})</span></a></li>`;
+    }
+
+    /* [NEW] add HTML from allAuthorsHTML to authorList */
+    authorList.innerHTML = allAuthorsHTML;
+
   }
   generateAuthors();
 
